@@ -1,13 +1,12 @@
 package supertokens
 
 import (
-	"context"
-	"github.com/gogetkarthik/service-specification/supertokens/client/hello"
+	hClient "github.com/gogetkarthik/service-specification/supertokens/client/hello"
 	"github.com/gogetkarthik/service-specification/supertokens/models"
 )
 
-type helloPKG struct {
-	client hello.ClientService
+type hello struct {
+	client hClient.ClientService
 }
 
 type helloService interface {
@@ -17,14 +16,12 @@ type helloService interface {
 	delete() (*models.HelloOutput, error)
 }
 
-func NewHelloServ(c hello.ClientService) helloService {
-	return helloPKG{client: c}
+func newHello(c hClient.ClientService) helloService {
+	return hello{client: c}
 }
 
-func (h helloPKG) get() (*models.HelloOutput, error) {
-	hp := &hello.HelloGetParams{
-		Context: context.Background(),
-	}
+func (h hello) get() (*models.HelloOutput, error) {
+	hp := hClient.NewHelloGetParams()
 
 	rsp, err := h.client.HelloGet(hp)
 	if err != nil {
@@ -33,8 +30,8 @@ func (h helloPKG) get() (*models.HelloOutput, error) {
 	return &rsp.Payload, nil
 }
 
-func (h helloPKG) post() (*models.HelloOutput, error) {
-	hp := &hello.HelloPostParams{}
+func (h hello) post() (*models.HelloOutput, error) {
+	hp := hClient.NewHelloPostParams()
 
 	rsp, err := h.client.HelloPost(hp)
 	if err != nil {
@@ -43,8 +40,8 @@ func (h helloPKG) post() (*models.HelloOutput, error) {
 	return &rsp.Payload, nil
 }
 
-func (h helloPKG) put() (*models.HelloOutput, error) {
-	hp := &hello.HelloPutParams{}
+func (h hello) put() (*models.HelloOutput, error) {
+	hp := hClient.NewHelloPutParams()
 
 	rsp, err := h.client.HelloPut(hp)
 	if err != nil {
@@ -53,8 +50,8 @@ func (h helloPKG) put() (*models.HelloOutput, error) {
 	return &rsp.Payload, nil
 }
 
-func (h helloPKG) delete() (*models.HelloOutput, error) {
-	hp := &hello.HelloDeleteParams{}
+func (h hello) delete() (*models.HelloOutput, error) {
+	hp := hClient.NewHelloDeleteParams()
 
 	rsp, err := h.client.HelloDelete(hp)
 	if err != nil {

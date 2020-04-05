@@ -6,15 +6,20 @@ import (
 )
 
 type handshake struct {
-	client hClient.Client
+	client hClient.ClientService
+}
+
+func newHandshake(hc hClient.ClientService) handshakeService {
+	return handshake{client: hc}
 }
 
 type handshakeService interface {
-	Handshake() (*models.HandshakeOutput, error)
+	Handshake(*models.DeviceDriverInfoType) (*models.HandshakeOutput, error)
 }
 
-func (h handshake) Handshake() (*models.HandshakeOutput, error) {
-	hp := &hClient.HandshakeParams{}
+func (h handshake) Handshake(dt *models.DeviceDriverInfoType) (*models.HandshakeOutput, error) {
+	hp := hClient.NewHandshakeParams()
+	hp.DeviceDriverInfoType = dt
 
 	rsp, err := h.client.Handshake(hp)
 	if err != nil {

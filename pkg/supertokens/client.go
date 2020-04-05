@@ -6,28 +6,28 @@ import (
 	"time"
 
 	rtClient "github.com/go-openapi/runtime/client"
-	"github.com/gogetkarthik/service-specification/supertokens/Client"
+	"github.com/gogetkarthik/service-specification/supertokens/client"
 	"github.com/gogetkarthik/service-specification/supertokens/models"
 )
 
 type (
 	superTokens struct {
-		basePath string
-		host     string
-		scheme   string
-		hello    helloService
-		//handshake handshake
+		basePath  string
+		host      string
+		scheme    string
+		hello     helloService
+		handshake handshakeService
 	}
 
-	SuperTokensClient interface {
-		//helloPKG end point
+	Client interface {
+		//hello end point
 		HelloGet() (*models.HelloOutput, error)
 		HelloPost() (*models.HelloOutput, error)
 		HelloPut() (*models.HelloOutput, error)
 		HelloDelete() (*models.HelloOutput, error)
 
 		//Handshake
-		//Handshake() (*models.HandshakeOutput, error)
+		Handshake(*models.DeviceDriverInfoType) (*models.HandshakeOutput, error)
 	}
 	Options func(st superTokens)
 )
@@ -48,12 +48,11 @@ func (s superTokens) HelloDelete() (*models.HelloOutput, error) {
 	return s.hello.delete()
 }
 
-//
-//func (s superTokens) Handshake() (*models.HandshakeOutput, error) {
-//	return s.handshake.Handshake()
-//}
+func (s superTokens) Handshake(dt *models.DeviceDriverInfoType) (*models.HandshakeOutput, error) {
+	return s.handshake.Handshake(dt)
+}
 
-func New(options ...Options) SuperTokensClient {
+func New(options ...Options) Client {
 
 	st := superTokens{
 		host:     client.DefaultHost,
@@ -72,8 +71,8 @@ func New(options ...Options) SuperTokensClient {
 	rt := rtClient.NewWithClient("localhost:3567", "/", []string{"http"}, &httpClient)
 	rt.Context = context.Background()
 	stService := client.New(rt, nil)
-	st.hello = NewHelloServ(stService.Hello)
-	//st.handshake = stService.Handshake
+	st.hello = newHello(stService.Hello)
+	st.handshake = newHandshake(stService.Handshake)
 
 	return st
 }

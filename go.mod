@@ -1,13 +1,10 @@
-module github.com/supertokens-go
+module github.com/gogetkarthik/supertokens-go
 
-go 1.14
+go 1.13
 
 require (
-	github.com/go-openapi/errors v0.19.4 // indirect
-	github.com/go-openapi/runtime v0.19.4
-	github.com/go-openapi/strfmt v0.19.5 // indirect
-	github.com/go-openapi/swag v0.19.8 // indirect
-	github.com/go-openapi/validate v0.19.7 // indirect
-	github.com/gogetkarthik/service-specification v0.0.2-beta
-	golang.org/x/tools v0.0.0-20190617190820-da514acc4774
+	github.com/go-openapi/runtime v0.19.15
+	github.com/gogetkarthik/service-specification v0.0.2-beta.0.20200405070534-594e1580da19
+	github.com/golang/mock v1.4.3
+	github.com/stretchr/testify v1.5.1
 )
